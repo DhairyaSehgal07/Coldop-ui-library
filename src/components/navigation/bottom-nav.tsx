@@ -1,8 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useLayoutEffect, useRef, useState } from "react"
 import { Link, useRouterState } from "@tanstack/react-router"
-import { motion, useReducedMotion } from "motion/react"
+import { motion } from "motion/react"
 
 import { navigation } from "@/app/navigation"
+import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion"
 
 const highlightSpring = {
   type: "spring",
@@ -14,7 +15,7 @@ const highlightSpring = {
 const HIGHLIGHT_SIZE = 44
 
 export function BottomNav() {
-  const reduced = useReducedMotion() === true
+  const reduced = usePrefersReducedMotion()
   const pathname = useRouterState({
     select: (state) => state.location.pathname,
   })
@@ -25,12 +26,12 @@ export function BottomNav() {
     navigation.findIndex((item) => item.to === pathname),
   )
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const bar = barRef.current
     if (!bar) return
 
     const measure = () => {
-      const link = bar.querySelectorAll("a").item(activeIndex)
+      const link = bar.querySelectorAll<HTMLElement>("[data-nav-item]").item(activeIndex)
       if (!link) return
       setX(link.offsetLeft + (link.offsetWidth - HIGHLIGHT_SIZE) / 2)
     }
@@ -66,8 +67,9 @@ export function BottomNav() {
               key={item.to}
               to={item.to}
               aria-label={item.label}
+              data-nav-item=""
               activeOptions={{ exact: true }}
-              className="relative flex size-12 items-center justify-center rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
+              className="relative flex size-12 touch-manipulation items-center justify-center rounded-full outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
             >
               {({ isActive }) => (
                 <motion.span

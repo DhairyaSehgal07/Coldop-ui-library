@@ -5,7 +5,7 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icons/icon-192.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f3620" />
+    <meta name="theme-color" content="%COLDOP_SPLASH_COLOR%" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -15,22 +15,37 @@
     <style>
       html.coldop-splash,
       html.coldop-splash body {
-        background-color: #0f3620;
+        background-color: %COLDOP_SPLASH_COLOR%;
       }
     </style>
     <script>
       (function () {
+        var splash = "%COLDOP_SPLASH_COLOR%"
+        var canvas = "%COLDOP_CANVAS_COLOR%"
+        var seenKey = "%COLDOP_SPLASH_SEEN_KEY%"
+        var dev = %COLDOP_DEV%
+        var meta = document.querySelector('meta[name="theme-color"]')
+        function setTheme(color) {
+          if (meta) meta.setAttribute("content", color)
+        }
         try {
-          if (sessionStorage.getItem("coldop-splash-seen") === "1") return
+          if (sessionStorage.getItem(seenKey) === "1") {
+            setTheme(canvas)
+            return
+          }
         } catch (e) {
+          setTheme(canvas)
           return
         }
         var standalone =
           window.matchMedia("(display-mode: standalone)").matches ||
           navigator.standalone === true
-        var dev =
-          location.hostname === "localhost" || location.hostname === "127.0.0.1"
-        if (standalone || dev) document.documentElement.classList.add("coldop-splash")
+        if (standalone || dev) {
+          document.documentElement.classList.add("coldop-splash")
+          setTheme(splash)
+          return
+        }
+        setTheme(canvas)
       })()
     </script>
   </head>

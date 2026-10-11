@@ -1,10 +1,10 @@
-/** Deep cold green. Keep in sync with `--splash` in index.css and the boot script in index.html. */
-export const SPLASH_COLOR = "#0f3620"
+import {
+  APP_CANVAS_COLOR,
+  SPLASH_COLOR,
+  SPLASH_SEEN_KEY,
+} from "@/lib/splash-tokens"
 
-/** Light app canvas after the splash leaves. Matches the default background. */
-export const APP_CANVAS_COLOR = "#ffffff"
-
-export const SPLASH_SEEN_KEY = "coldop-splash-seen"
+export { APP_CANVAS_COLOR, SPLASH_COLOR, SPLASH_SEEN_KEY }
 
 const SPLASH_CLASS = "coldop-splash"
 

@@ -6,6 +6,8 @@ export function ColdopMark({ className }: ColdopMarkProps) {
   return (
     <svg
       viewBox="0 0 64 64"
+      width="64"
+      height="64"
       fill="none"
       aria-hidden="true"
       className={className}

@@ -10,7 +10,9 @@ export default function App() {
 
   return (
     <>
-      <RouterProvider router={router} />
+      <div inert={visible}>
+        <RouterProvider router={router} />
+      </div>
       <AnimatePresence>
         {visible ? (
           <SplashScreen key="splash" onHoldComplete={dismiss} />

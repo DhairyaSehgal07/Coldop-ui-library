@@ -30,6 +30,7 @@
     --chart-3: oklch(0.627 0.194 149.214);
     --chart-4: oklch(0.527 0.154 150.069);
     --chart-5: oklch(0.448 0.119 151.328);
+    /* Keep in sync with SPLASH_COLOR in src/lib/splash-tokens.ts */
     --splash: #0f3620;
     --radius: 0.625rem;
     --sidebar: oklch(0.985 0 0);

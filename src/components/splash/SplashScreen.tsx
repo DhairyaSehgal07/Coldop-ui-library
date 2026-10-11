@@ -1,31 +1,58 @@
-import { useEffect, useState } from "react"
+import { useEffect } from "react"
 import { motion } from "motion/react"
 
 import { ColdopMark } from "@/components/brand/ColdopMark"
-import { SPLASH_COLOR } from "@/lib/pwa"
+import { usePrefersReducedMotion } from "@/hooks/use-reduced-motion"
 
 const HOLD_MS = 1600
 const REDUCED_HOLD_MS = 520
 const EXIT_EASE = [0.4, 0, 1, 1] as const
 const ENTER_EASE = [0.22, 1, 0.36, 1] as const
 
-type SplashScreenProps = {
-  onHoldComplete: () => void
+const containerVariants = {
+  hidden: {},
+  show: { transition: { staggerChildren: 0.16, delayChildren: 0.08 } },
 }
 
-function usePrefersReducedMotion() {
-  const [reduced, setReduced] = useState(
-    () => window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  )
+const reducedContainerVariants = {
+  hidden: {},
+  show: { transition: { duration: 0.2 } },
+}
 
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const onChange = () => setReduced(media.matches)
-    media.addEventListener("change", onChange)
-    return () => media.removeEventListener("change", onChange)
-  }, [])
+const markVariants = {
+  hidden: { opacity: 0, scale: 0.92 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { type: "spring" as const, stiffness: 280, damping: 24, mass: 0.7 },
+  },
+}
 
-  return reduced
+const wordmarkVariants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: ENTER_EASE },
+  },
+}
+
+const taglineVariants = {
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: ENTER_EASE },
+  },
+}
+
+const reducedChildVariants = {
+  hidden: { opacity: 1 },
+  show: { opacity: 1 },
+}
+
+type SplashScreenProps = {
+  onHoldComplete: () => void
 }
 
 export function SplashScreen({ onHoldComplete }: SplashScreenProps) {
@@ -41,80 +68,36 @@ export function SplashScreen({ onHoldComplete }: SplashScreenProps) {
 
   return (
     <motion.div
-      className="fixed inset-0 z-50 flex items-center justify-center select-none"
-      style={{ backgroundColor: SPLASH_COLOR }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-splash select-none"
       initial={{ opacity: reduced ? 0 : 1 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, scale: reduced ? 1 : 1.04 }}
       transition={{ duration: reduced ? 0.2 : 0.4, ease: EXIT_EASE }}
-      aria-hidden="true"
+      role="img"
+      aria-label="Coldop, cold storage inventory"
     >
       <motion.div
         className="flex flex-col items-center"
         initial="hidden"
         animate="show"
-        variants={{
-          hidden: {},
-          show: reduced
-            ? { opacity: 1, transition: { duration: 0.2 } }
-            : { transition: { staggerChildren: 0.16, delayChildren: 0.08 } },
-        }}
+        variants={reduced ? reducedContainerVariants : containerVariants}
+        aria-hidden="true"
       >
         <motion.div
           className="text-white"
-          variants={
-            reduced
-              ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-              : {
-                  hidden: { opacity: 0, scale: 0.86, filter: "blur(8px)" },
-                  show: {
-                    opacity: 1,
-                    scale: 1,
-                    filter: "blur(0px)",
-                    transition: {
-                      type: "spring",
-                      stiffness: 280,
-                      damping: 24,
-                      mass: 0.7,
-                    },
-                  },
-                }
-          }
+          variants={reduced ? reducedChildVariants : markVariants}
         >
           <ColdopMark className="size-20" />
         </motion.div>
         <motion.p
           className="mt-6 font-heading text-[2.75rem] leading-none font-medium whitespace-nowrap text-white"
-          variants={
-            reduced
-              ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-              : {
-                  hidden: { opacity: 0, y: 12, letterSpacing: "0.2em" },
-                  show: {
-                    opacity: 1,
-                    y: 0,
-                    letterSpacing: "-0.03em",
-                    transition: { duration: 0.55, ease: ENTER_EASE },
-                  },
-                }
-          }
+          variants={reduced ? reducedChildVariants : wordmarkVariants}
         >
           Coldop
         </motion.p>
         <motion.p
           className="mt-3 text-sm text-white/70"
-          variants={
-            reduced
-              ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
-              : {
-                  hidden: { opacity: 0, y: 8 },
-                  show: {
-                    opacity: 1,
-                    y: 0,
-                    transition: { duration: 0.4, ease: ENTER_EASE },
-                  },
-                }
-          }
+          variants={reduced ? reducedChildVariants : taglineVariants}
         >
           Cold storage inventory
         </motion.p>
