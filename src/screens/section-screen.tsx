@@ -1,33 +1,23 @@
-type SectionScreenProps = {
-  title: string
-}
-
-export function SectionScreen({ title }: SectionScreenProps) {
-  return (
-    <div className="px-6 pt-[max(1.5rem,env(safe-area-inset-top))] md:px-8 md:pt-2">
-      <h1 className="font-heading text-[1.75rem] leading-none font-medium tracking-tight text-foreground">
-        {title}
-      </h1>
-    </div>
-  )
+export function SectionScreen() {
+  return <div className="px-6 py-6 md:px-8 md:py-8" />
 }
 
 export function DaybookScreen() {
-  return <SectionScreen title="Daybook" />
+  return <SectionScreen />
 }
 
 export function PeopleScreen() {
-  return <SectionScreen title="People" />
+  return <SectionScreen />
 }
 
 export function AnalyticsScreen() {
-  return <SectionScreen title="Analytics" />
+  return <SectionScreen />
 }
 
 export function FinancesScreen() {
-  return <SectionScreen title="Finances" />
+  return <SectionScreen />
 }
 
 export function MoreScreen() {
-  return <SectionScreen title="More" />
+  return <SectionScreen />
 }
