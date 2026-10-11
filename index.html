@@ -3,8 +3,36 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>coldop-ui</title>
+    <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#0f3620" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Coldop" />
+    <meta name="description" content="Cold storage inventory management" />
+    <title>Coldop</title>
+    <style>
+      html.coldop-splash,
+      html.coldop-splash body {
+        background-color: #0f3620;
+      }
+    </style>
+    <script>
+      (function () {
+        try {
+          if (sessionStorage.getItem("coldop-splash-seen") === "1") return
+        } catch (e) {
+          return
+        }
+        var standalone =
+          window.matchMedia("(display-mode: standalone)").matches ||
+          navigator.standalone === true
+        var dev =
+          location.hostname === "localhost" || location.hostname === "127.0.0.1"
+        if (standalone || dev) document.documentElement.classList.add("coldop-splash")
+      })()
+    </script>
   </head>
   <body>
     <div id="root"></div>
