@@ -1,20 +1,21 @@
+import { RouterProvider } from "@tanstack/react-router"
 import { AnimatePresence } from "motion/react"
 
+import { router } from "@/app/router"
 import { SplashScreen } from "@/components/splash/SplashScreen"
 import { useSplash } from "@/hooks/use-splash"
-import { HomeScreen } from "@/screens/home/HomeScreen"
 
 export default function App() {
   const { visible, dismiss } = useSplash()
 
   return (
-    <div className="h-dvh overflow-hidden overscroll-none">
-      <HomeScreen />
+    <>
+      <RouterProvider router={router} />
       <AnimatePresence>
         {visible ? (
           <SplashScreen key="splash" onHoldComplete={dismiss} />
         ) : null}
       </AnimatePresence>
-    </div>
+    </>
   )
 }
