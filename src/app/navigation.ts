@@ -8,9 +8,9 @@ import {
 } from "lucide-react"
 import type { ReactElement } from "react"
 
+import { DaybookScreen } from "@/screens/daybook-screen"
 import {
   AnalyticsScreen,
-  DaybookScreen,
   FinancesScreen,
   MoreScreen,
   PeopleScreen,
